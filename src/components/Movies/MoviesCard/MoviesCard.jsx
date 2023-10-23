@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
-import { BASE_URL } from '../../../utils/MoviesApi';
+import { BASE_URL } from '../../../utils/constants';
 import { formatDuration } from '../../../utils/durationFormat';
 
 function MoviesCard({ movie }) {
