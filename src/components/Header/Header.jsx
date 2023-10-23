@@ -1,10 +1,12 @@
-import React from "react";
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import './Header.css';
-import Navigation from '../Navigation/Navigation';
-import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import Navigation from "../Navigation/Navigation";
+import BurgerMenu from "../BurgerMenu/BurgerMenu";
 
-function Header({ isLoggedIn }) {
+function Header() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
 
   const changeHeaderBg = location.pathname !== '/';

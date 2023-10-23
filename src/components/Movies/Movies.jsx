@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './Movies.css';
 import Header from '../Header/Header';
 import SearchForm from './SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
+import MoviesCard from './MoviesCard/MoviesCard';
 import MoviesMoreButton from './MoviesMoreButton/MoviesMoreButton';
-import Footer from '../Footer/Footer';
-import { getAllMovies } from '../../utils/MoviesApi';
+import Footer from "../Footer/Footer";
 
-function Movies({ isLoggedIn }) {
-  const [allMovies, setAllMovies] = useState([]);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      getAllMovies()
-        .then((data) => {
-          setAllMovies(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-    }
-  }, [isLoggedIn]);
-
+function Movies() {
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
       <main className="content">
         <SearchForm />
-        <MoviesCardList allMovies={allMovies} />
+        <MoviesCardList>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+          <MoviesCard></MoviesCard>
+        </MoviesCardList>
         <MoviesMoreButton />
       </main>
       <Footer />
