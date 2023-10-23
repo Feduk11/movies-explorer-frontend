@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.nomoredomainsrocks.ru';
+export const BASE_URL = 'https://api.movies.feduk11.nomoredomainsrocks.ru';
 
 function resStatus(res) {
   if (res.ok) {

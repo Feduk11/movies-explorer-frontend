@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'http://movies.feduk11.nomoredomainsrocks.ru';
 
 function resStatus(res) {
   if (res.ok) {
