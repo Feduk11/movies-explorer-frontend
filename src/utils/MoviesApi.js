@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.movies.feduk11.nomoredomainsrocks.ru';
+import { BASE_URL } from "./constants";
 
 function resStatus(res) {
   if (res.ok) {
