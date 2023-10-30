@@ -46,7 +46,7 @@
   color: #FFF;
   font-size: 12px;
   font-weight: 500;
-  line-height: 16px; /* 133.333% */
+  line-height: 16px;
   text-decoration: none;
   padding: 10px 20px;
   text-align: center;
@@ -54,7 +54,6 @@
 
 @media screen and (max-width: 1280px) {
   .promo__title {
-    /* calc((100vw - Vmin)/(Vmax - Vmin) * (Fmax - Fmin) + Fmin); */
     font-size: calc((100vw - 1024px)/(1280 - 1024) * (50 - 46) + 46px);
   }
 }
@@ -97,7 +96,6 @@
     font-size: calc((100vw - 320px)/(768 - 320) * (40 - 30) + 30px);
     line-height: calc((100vw - 320px)/(768 - 320) * (50 - 38) + 38px);
     text-align: center;
-    /* letter-spacing: -1.2px; */
   }
 
   .promo__subtitle {

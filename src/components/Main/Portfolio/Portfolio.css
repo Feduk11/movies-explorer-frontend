@@ -14,7 +14,7 @@
   color: #8B8B8B;
   font-size: 18px;
   font-weight: 400;
-  line-height: 20px; /* 111.111% */
+  line-height: 20px;
 }
 
 .portfolio__list {
@@ -40,7 +40,7 @@
   color: #FFF;
   font-size: 30px;
   font-weight: 400;
-  line-height: 50px; /* 166.667% */
+  line-height: 50px;
   letter-spacing: -1.2px;
   text-decoration: none;
   display: flex;
@@ -76,7 +76,7 @@
     font-size: calc((100vw - 320px)/(768 - 320) * (18 - 14) + 14px);
   }
 
-  .portfolio__item {  
+  .portfolio__item {
     border-bottom: 1px solid #E6E6E6;
   }
 
@@ -98,4 +98,3 @@
     background-size: 13px 12px;
   }
 }
-

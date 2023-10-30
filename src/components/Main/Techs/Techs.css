@@ -38,7 +38,7 @@
   text-align: center;
   font-size: 50px;
   font-weight: 400;
-  line-height: 58px; /* 116% */
+  line-height: 58px;
   letter-spacing: -2px;
   padding-bottom: 26px;
 }
@@ -51,7 +51,7 @@
   text-align: center;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px; /* 142.857% */
+  line-height: 20px;
   letter-spacing: -0.56px;
 }
 
