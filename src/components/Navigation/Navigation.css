@@ -41,11 +41,11 @@
 }
 
 .header__link_blue::after {
-  background: #0F4157 url('../../images/profile-icon.svg') no-repeat center center / 12px 12px;
+  background: #0F4157 url('../../images/account-icon.svg') no-repeat center center / 12px 12px;
 }
 
 .header__link_dark::after {
-  background: #313131 url('../../images/profile-icon.svg') no-repeat center center / 12px 12px;
+  background: #313131 url('../../images/account-icon.svg') no-repeat center center / 12px 12px;
 }
 
 @media screen and (max-width: 768px) {
