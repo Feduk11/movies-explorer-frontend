@@ -1,21 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PageNotFound.css';
+import './Page404.css';
 
-function PageNotFound() {
+function Page404() {
   const navigate = useNavigate();
 
-  const goBack = () => {
-    navigate(-1);
-  };
-
   return (
-    <section className="page-not-found">
-      <h2 className="page-not-found__title">404</h2>
-      <p className="page-not-found__subtitle">Страница не найдена</p>
-      <button className="page-not-found__btn" onClick={goBack} >Назад</button>
-    </section>
-  )
+    <main className="page-error-404">
+      <section className="page-error-404__section">
+        <h1 className="page-error-404__code">404</h1>
+        <p className="page-error-404__title">Страница не найдена</p>
+        <button className="page-error-404__button" onClick={() => navigate(-1)}>Назад</button>
+      </section>
+    </main>
+  );
 }
 
-export default PageNotFound;
+export default Page404;
