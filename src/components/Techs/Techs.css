@@ -65,7 +65,7 @@
   gap: 10px;
 }
 
-.techs__list-item {
+.techs__list-name {
   width: 90px;
   height: 60px;
   display: flex;
@@ -113,7 +113,7 @@
     margin-top: calc((100vw - 320px)/(768 - 320) * (83 - 50) + 50px);
   }
 
-  .techs__list-item {
+  .techs__list-name {
     width: 84px;
     height: 57px;
   }

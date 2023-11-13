@@ -30,7 +30,7 @@
   max-width: 600px;
 }
 
-.about-me__info-title {
+.about-me__bio-name {
   margin: 0;
   padding: 0;
   color: #FFF;
@@ -40,7 +40,7 @@
   letter-spacing: -2px;
 }
 
-.about-me__info-subtitle {
+.about-me__bio-role {
   margin: 18px 0 0;
   padding: 0;
   font-size: 18px;
@@ -48,7 +48,7 @@
   line-height: 20px;
 }
 
-.about-me__info-description {
+.about-me__bio-description {
   margin: 26px 0 75px;
   padding: 0;
   color: #FFF;
@@ -91,17 +91,17 @@
     max-width: 364px;
   }
 
-  .about-me__info-title {
+  .about-me__bio-name {
     font-size: calc((100vw - 320px)/(768 - 320) * (40 - 30) + 30px);
     letter-spacing: calc((100vw - 320px)/(768 - 320) * (-1.6 + 1.2) - 1.2px);
   }
 
-  .about-me__info-subtitle {
+  .about-me__bio-role {
     margin-top: calc((100vw - 320px)/(768 - 320) * (16 - 20) + 20px);
     font-size: calc((100vw - 320px)/(768 - 320) * (12 - 11) + 11px);
   }
 
-  .about-me__info-description {
+  .about-me__bio-description {
     margin: 20px 0 70px;
     font-size: calc((100vw - 320px)/(768 - 320) * (12 - 11) + 11px);
     line-height: calc((100vw - 320px)/(768 - 320) * (18 - 16) + 16px);
@@ -118,7 +118,7 @@
     max-width: 100%;
   }
 
-  .about-me__info-description {
+  .about-me__bio-description {
     margin-bottom: 40px;
   }
 
