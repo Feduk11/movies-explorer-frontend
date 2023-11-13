@@ -1,7 +1,7 @@
 import React from 'react';
 import Authorize from '../Authorize/Authorize';
 import Input from '../Input/Input';
-import useFormValidation from '../../hooks/useFormValidation';
+import useFormValidation from '../../hooks/useFormWithValidation';
 import '../Main/Main.css';
 
 function Register({
