@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Navlink, useLocation } from 'react-router-dom';
 import './Navigation.css';
 
 function Navigation({ modifyHeaderBackground }) {
@@ -15,7 +15,7 @@ function Navigation({ modifyHeaderBackground }) {
     <>
       <nav className="header__links">
         <Navlink to="/movies" className={({isActive}) => isActive ? 'header__link_active' : ''}>Фильмы</Navlink>
-        <Link to="/saved-movies" className={`header__link ${addActiveClass('/saved-movies')}`}>Сохранённые фильмы</Link>
+        <Link to="/saved-movies" /*className={`header__link ${addActiveClass('/saved-movies')}`}*/>Сохранённые фильмы</Link>
       </nav>
       <Link to="/profile" className={`header__link ${modifyHeaderBackground ? 'header__link_dark' : 'header__link_blue'}`}>Аккаунт</Link>
     </>
