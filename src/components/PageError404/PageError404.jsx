@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Page404.css';
+import './PageError404.css';
 
-function Page404() {
+function PageError404() {
   const navigate = useNavigate();
 
   return (
@@ -16,4 +16,4 @@ function Page404() {
   );
 }
 
-export default Page404;
+export default PageError404;

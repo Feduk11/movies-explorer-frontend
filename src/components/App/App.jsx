@@ -7,7 +7,7 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
-import PageNotFound from '../PageNotFound/PageNotFound';
+import PageError404 from '../PageError404/PageError404';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Preloader from '../Preloader/Preloader';
@@ -145,7 +145,7 @@ function App() {
             }/>
             <Route path="/signup" element={<Register isLoggedIn={isLoggedIn} onRegister={onRegister} isSubmitError={isSubmitError} setIsSubmitError={setIsSubmitError} />}/>
             <Route path="/signin" element={<Login isLoggedIn={isLoggedIn} onLogin={onLogin} isSubmitError={isSubmitError} setIsSubmitError={setIsSubmitError} />}/>
-            <Route path="*" element={<PageNotFound />} />
+            <Route path="*" element={<PageError404 />} />
           </Routes>
         </CurrentUserContext.Provider>
       )}
