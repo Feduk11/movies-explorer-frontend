@@ -47,6 +47,12 @@
   font-weight: 400;
   line-height: normal;
   text-align: center;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+
+.page-error-404__button:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 768px) {
