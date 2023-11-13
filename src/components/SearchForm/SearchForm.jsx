@@ -1,7 +1,7 @@
 import React from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import useFormValidation from '../../hooks/useFormValidation';
+import useFormValidation from '../../hooks/useFormWithValidation';
 import { useLocation } from 'react-router-dom';
 
 function SearchForm({
