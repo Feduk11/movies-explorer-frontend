@@ -57,7 +57,7 @@
   content: '';
   width: 29px;
   height: 50px;
-  background: url('../../../images/arrow-icon.png') no-repeat top 20px right 5px;
+  background: url('../../images/arrow-icon.png') no-repeat top 20px right 5px;
 }
 
 @media screen and (max-width: 1024px) {
