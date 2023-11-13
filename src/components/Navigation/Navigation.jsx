@@ -15,9 +15,9 @@ function Navigation({ modifyHeaderBackground }) {
     <>
       <nav className="header__links">
         <NavLink to="/movies" className={({isActive}) => isActive ? 'header__link_active' : ''}>Фильмы</NavLink>
-        <Link to="/saved-movies" /*className={`header__link ${addActiveClass('/saved-movies')}`}*/>Сохранённые фильмы</Link>
+        <NavLink to="/saved-movies" /*className={`header__link ${addActiveClass('/saved-movies')}`}*/>Сохранённые фильмы</NavLink>
       </nav>
-      <Link to="/profile" className={`header__link ${modifyHeaderBackground ? 'header__link_dark' : 'header__link_blue'}`}>Аккаунт</Link>
+      <NavLink to="/profile" className={`header__link ${modifyHeaderBackground ? 'header__link_dark' : 'header__link_blue'}`}>Аккаунт</NavLink>
     </>
   );
 }
