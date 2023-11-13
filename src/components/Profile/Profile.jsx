@@ -2,7 +2,7 @@ import React from 'react';
 import Authorize from '../Authorize/Authorize';
 import Input from '../Input/Input';
 import Header from '../Header/Header';
-import useFormValidation from '../../hooks/useFormValidation';
+import useFormValidation from '../../hooks/useFormWithValidation';
 import '../Main/Main.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
