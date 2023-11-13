@@ -1,46 +1,42 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import './Header.css';
-import Navigation from '../Navigation/Navigation';
 
+function Navigation({ modifyHeaderBackground }) {
 
-
-function HamburgerMenu() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
-
-  // Если текущий путь url совпадает, добавляю класс подчёркивания для выделения активной ссылки
-  const pasteActiveClass = (path) => {
-    return location.pathname === path ? 'hamburger-menu__link_active' : '';
-  };
-
-  const manageMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-
+  /* Если ссылка активна, изменяю класс для выделения активной ссылки.
+     Кнопка профиля меняет цвет фона в соответствии с текущим пути url */
   return (
     <>
-      <button
-        className={`header__hamburger-button ${isMenuOpen ? 'header__hamburger-button_hide' : ''}`}
-        onClick={manageMenuClick}
-      ></button>
-      <div
-        className={`hamburger-menu__overlay ${isMenuOpen ? 'hamburger-menu__overlay_active' : ''}`}
-        onClick={manageMenuClick}
-      >
+      <nav className="header__links">
+        <NavLink to="/movies" className={({isActive}) => isActive ? 'header__link_active' : 'header__link'}>Фильмы</NavLink>
+        <NavLink to="/saved-movies" className={({isActive}) => isActive ? 'header__link_active' : 'header__link'}>Сохранённые фильмы</NavLink>
+      </nav>
+      <Link to="/profile" className={`header__link ${modifyHeaderBackground ? 'header__profile-link_dark' : 'header__profile-link_blue'}`}>Аккаунт</Link>
+    </>
+  );
+}
+
+function HamburgerMenu() {
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
+
+  // Управление состоянием гамбургер-меню (открыто/закрыто)
+  const manageMenuClick = () => {
+    setIsHamburgerOpen(!isHamburgerOpen);
+  };
+
+  /* Функционал открытия/закрытия гамбургера. Остановка обработчика клика.
+     Если ссылка активна, изменяю класс меняется для подчёркивания активной ссылки */
+  return (
+    <>
+      <button className={`header__hamburger-button ${isHamburgerOpen ? 'header__hamburger-button_hide' : ''}`} onClick={manageMenuClick}></button>
+      <div className={`hamburger-menu__overlay ${isHamburgerOpen ? 'hamburger-menu__overlay_active' : ''}`} onClick={manageMenuClick}>
         <button className="hamburger-menu__close-button" onClick={manageMenuClick} />
         <div className="hamburger-menu__content" onClick={(e) => e.stopPropagation()}>
           <nav className="hamburger-menu__links">
-            <Link to="/" className={`hamburger-menu__link ${pasteActiveClass('/')}`}>
-              Главная
-            </Link>
-            <Link to="/movies" className={`hamburger-menu__link ${pasteActiveClass('/movies')}`}>
-              Фильмы
-            </Link>
-            <Link to="/saved-movies" className={`hamburger-menu__link ${pasteActiveClass('/saved-movies')}`}>
-              Сохранённые фильмы
-            </Link>
+            <NavLink to="/" className={({isActive}) => isActive ? 'hamburger-menu__link_active' : 'hamburger-menu__link'}>Главная</NavLink>
+            <NavLink to="/movies" className={({isActive}) => isActive ? 'hamburger-menu__link_active' : 'hamburger-menu__link'}>Фильмы</NavLink>
+            <NavLink to="/saved-movies" className={({isActive}) => isActive ? 'hamburger-menu__link_active' : 'hamburger-menu__link'}>Сохранённые фильмы</NavLink>
           </nav>
           <Link to="/profile" className="hamburger-menu__profile">
             Аккаунт
@@ -53,9 +49,11 @@ function HamburgerMenu() {
 
 function Header({ isLoggedIn }) {
   const location = useLocation();
-
   const modifyHeaderBackground = location.pathname !== '/';
 
+  /* Проверка пути url для изменения цвета контейнера.
+     Проверка на авторицаию пользователя.
+     Отображение шапки навигации и гамбургер-меню */
   return (
     <header className={`header ${modifyHeaderBackground ? 'header_dark-background' : ''}`}>
       <div className="header__container">
