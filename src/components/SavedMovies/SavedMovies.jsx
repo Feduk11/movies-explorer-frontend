@@ -1,76 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import './SavedMovies.css';
+import React from 'react';
 import Header from '../Header/Header';
-import SearchForm from '../Movies/SearchForm/SearchForm';
-import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
-import { getSavedMovies } from '../../utils/MainApi';
-import { saveToLocalStorage, getFromLocalStorage } from '../../utils/localStorage';
-import { filterMoviesByKeyword, filterShortMovies } from '../../utils/moviesFilter';
+import '../Main/Main.css';
 
-function SavedMovies({ isLoggedIn, savedMovies, setSavedMovies, deleteMovie }) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isChecked, setIsChecked] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+function SavedMovies({
+  checkMovie,
+  deleteMovie,
+  savedMovies,
+  isLoading,
+  isSearchError,
+}) {
+  const [filteredMovies, setFilteredMovies] = React.useState(savedMovies);
+  const [isEmpty, setIsEmpty] = React.useState(true);
+  const [isSearched, setIsSearched] = React.useState(false);
 
-  useEffect(() => {
-    setIsLoading(true);
-    getSavedMovies()
-      .then((data) => {
-        setSavedMovies(data.reverse());
-        saveToLocalStorage('savedMovies', data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      })
-  }, [setSavedMovies])
+  const [searchRequest, setSearchRequest] = React.useState('');
+  const [isChecked, setIsChecked] = React.useState(false);
 
-  const savedMoviesFromLocalStorage = getFromLocalStorage('savedMovies') || [];
-
-  async function handleSearchMovies(searchQuery) {
-    const filteredByKeyword = await filterMoviesByKeyword(savedMoviesFromLocalStorage, searchQuery.trim());
-    const filteredResult = await filterShortMovies(filteredByKeyword, isChecked);
-    setSavedMovies(filteredResult);
-    if (filteredResult.length === 0) {
-      setError('Ничего не найдено');
-    }  else {
-      setError('');
+  function handleCheckBoxClick() {
+    if (isChecked === false) {
+      setIsChecked(true);
+      filterMovies(searchRequest, true, savedMovies);
+    } else {
+      setIsChecked(false);
+      filterMovies(searchRequest, false, savedMovies);
     }
   }
 
-  function handleCheckbox(isChecked) {
-    const filteredByKeyword = filterMoviesByKeyword(savedMoviesFromLocalStorage, searchQuery.trim());
-    const filteredResult = filterShortMovies(filteredByKeyword, isChecked);
-    setSavedMovies(filteredResult);
-    if (filteredResult.length === 0) {
-      setError('Ничего не найдено');
-    }  else {
-      setError('');
-    }
+  const filterMovies = React.useCallback((searchText, isChecked, movies) => {
+    setSearchRequest(searchText);
+    setFilteredMovies(
+      movies.filter((movie) => {
+        const searchResultRu = movie.nameRU
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+        const searchResultEn = movie.nameEN
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+        return isChecked
+          ? (searchResultRu || searchResultEn) && movie.duration <= 40
+          : searchResultRu || searchResultEn;
+      })
+    );
+  }, []);
+
+  function searchMovies(searchText) {
+    filterMovies(searchText, isChecked, savedMovies);
+    setIsSearched(true);
   }
+
+  React.useEffect(() => {
+    filterMovies(searchRequest, isChecked, savedMovies);
+    if (savedMovies.length > 0) {
+      setIsEmpty(false);
+    }
+  }, [filterMovies, searchRequest, isChecked, savedMovies]);
 
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} />
-      <main className="content">
-        <SearchForm
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          onSearch={handleSearchMovies}
-          onCheckbox={handleCheckbox}
-          isChecked={isChecked}
-          setIsChecked={setIsChecked}
-        />
-        <MoviesCardList movies={savedMovies} isLoading={isLoading} error={error} deleteMovie={deleteMovie} />
-        <div className="saved-movies__divider"></div>
-      </main>
+      <Header />
+      <MoviesCardList
+        checkMovie={checkMovie}
+        deleteMovie={deleteMovie}
+        isEmpty={isEmpty}
+        isSearched={isSearched}
+        isLoading={isLoading}
+        isSearchError={isSearchError}
+        savedMovies={savedMovies}
+        filteredMovies={filteredMovies}
+        isChecked={isChecked}
+        handleCheckBoxClick={handleCheckBoxClick}
+        searchMovies={searchMovies}
+      />
       <Footer />
     </>
-  )
+  );
 }
-
 export default SavedMovies;

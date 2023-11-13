@@ -1,101 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import AuthForm from '../AuthForm/AuthForm';
-import './Register.css'
-import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-import { EMAIL_REGEX, NAME_REGEX } from '../../utils/constants';
+import React from 'react';
+import Authorize from '../Authorize/Authorize';
+import Input from '../Input/Input';
+import useFormValidation from '../../hooks/useFormValidation';
+import '../Main/Main.css';
 
-function Register({ isLoggedIn, onRegister, isSubmitError, setIsSubmitError }) {
-  const { values, handleChange, errors, setErrors, isValid, resetForm } = useFormAndValidation();
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+function Register({
+  onRegister,
+  isError,
+  setIsError,
+  isSending,
+  isSuccessful,
+  setIsSuccessful,
+}) {
+  const {
+    inputValues,
+    errorMessages,
+    isFormValid,
+    isInputValid,
+    handleChange,
+  } = useFormValidation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      await onRegister(values);;
-      setIsSubmitting(false);
-      setIsFormValid(false);
-    } catch (error) {
-      setIsSubmitting(false);
-      setIsFormValid(false);
-    }
-  };
-
-  const handleChangeEmail = (e) => {
-    handleChange(e);
-    const { name, value } = e.target;
-    if (name === 'email') {
-      if (!EMAIL_REGEX.test(value)) {
-        setErrors({ ...errors, email: 'Введите корректный email'});
-      }
-    }
+  function onSubmit(event) {
+    event.preventDefault();
+    onRegister(inputValues.username, inputValues.email, inputValues.password);
   }
 
-  const handleChangeName = (e) => {
-    handleChange(e);
-    const { name, value } = e.target;
-    if (name === 'name') {
-      if (!NAME_REGEX.test(value)) {
-        setErrors({ ...errors, [name]: 'Поле должно содержать только латиницу, кириллицу, пробел или дефис.'});
-      }
-    } else if (value.length < 2 || value.length < 30) {
-      setErrors({ ...errors, [name]: 'Поле должно содержать от 2 до 30 символов.'});
-    } else {
-      setErrors({ ...errors, [name]: '' });
-    }
-  }
+  React.useEffect(() => {
+    setIsError(false);
+  }, [setIsError, inputValues]);
 
-  useEffect(() => {
-    if (errors.email || errors.name) {
-      setIsFormValid(false);
-    } else {
-      setIsFormValid(true);
-    }
-    setIsSubmitError('');
-  }, [errors, setIsSubmitError]);
-
-  useEffect(() => {
-    resetForm();
-  }, [resetForm]);
-
-  if (isLoggedIn) {
-    return <Navigate to="/movies" />;
-  }
+  React.useEffect(() => {
+    setIsSuccessful(false);
+  }, [setIsSuccessful]);
 
   return (
-    <AuthForm
-      title="Добро пожаловать!"
-      nameForm="registerForm"
-      btnText="Зарегистрироваться"
-      textPage="Уже зарегистрированы?"
-      linkPage="/signin"
-      textLink="Войти"
-      onSubmit={handleSubmit}
-      isValid={isValid}
-      isFormValid={isFormValid}
-      isSubmitError={isSubmitError}
-      isSubmitting={isSubmitting}
-    >
-      <label className="auth__label">
-        Имя
-        <input className="auth__input" name="name" type="text" placeholder="Имя" minLength="2" maxLength="30" value={values.name || ''} onChange={handleChangeName} required disabled={isSubmitting} />
-      </label>
-      <span className={`auth__input-error name-error ${errors.name ? 'auth__input-error_active' : ''}`}>{errors.name}</span>
-      <label className="auth__label">
-        E-mail
-        <input className="auth__input" name="email" type="email" placeholder="E-mail" minLength="2" maxLength="30" value={values.email || ''} onChange={handleChangeEmail} required disabled={isSubmitting} />
-      </label>
-      <span className={`auth__input-error email-error ${errors.email ? 'auth__input-error_active' : ''}`}>{errors.email}</span>
-      <label className="auth__label">
-        Пароль
-        <input className="auth__input" name="password" type="password" placeholder="Пароль" minLength="2" maxLength="30" value={values.password || ''} onChange={handleChange} required disabled={isSubmitting} />
-      </label>
-      <span className={`auth__input-error password-error ${errors.password ? 'auth__input-error_active' : ''}`}>{errors.password}</span>
-    </AuthForm>
-  )
+    <main className="main page__register register">
+      <Authorize
+        name="register"
+        greeting="Добро пожаловать!"
+        isValid={isFormValid}
+        isError={isError}
+        errorText="При регистрации пользователя произошла ошибка."
+        buttonText="Зарегистрироваться"
+        onSubmit={onSubmit}
+        text="Уже зарегистрированы? "
+        link="/signin"
+        linkText="Войти"
+        isSending={isSending}
+        isSuccessful={isSuccessful}
+      >
+        <Input
+          formType="login"
+          title="Имя"
+          type="text"
+          name="username"
+          placeholder="Имя"
+          minLength="3"
+          maxLength="40"
+          value={inputValues.username}
+          isInputValid={isInputValid.username}
+          error={errorMessages.username}
+          onChange={handleChange}
+        />
+        <Input
+          formType="login"
+          title="E-mail"
+          type="email"
+          name="email"
+          placeholder="E-mail"
+          value={inputValues.email}
+          isInputValid={isInputValid.email}
+          error={errorMessages.email}
+          onChange={handleChange}
+        />
+        <Input
+          formType="login"
+          title="Пароль"
+          type="password"
+          name="password"
+          placeholder="Пароль"
+          minLength="3"
+          maxLength="200"
+          value={inputValues.password}
+          isInputValid={isInputValid.password}
+          error={errorMessages.password}
+          onChange={handleChange}
+        />
+      </Authorize>
+    </main>
+  );
 }
 
 export default Register;
