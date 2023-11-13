@@ -9,6 +9,7 @@ function HamburgerMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Если текущий путь url совпадает, добавляю класс подчёркивания для выделения активной ссылки
   const pasteActiveClass = (path) => {
     return location.pathname === path ? 'hamburger-menu__link_active' : '';
   };
