@@ -181,8 +181,13 @@
 }
 
 .hamburger-menu__link_active {
-  border-bottom: 2px solid;
-  border-color: #FFF;
+  border-bottom: 2px solid #FFF;
+  color: #FFF;
+  text-align: center;
+  line-height: normal;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .hamburger-menu__profile {
