@@ -17,7 +17,12 @@
 }
 
 .header__link_active {
+  text-decoration: none;
+  color: #FFF;
+  font-size: 12px;
   font-weight: 500;
+  line-height: 133.333%;
+  transition: opacity 0.2s;
 }
 
 .header__link_blue,
