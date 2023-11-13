@@ -7,7 +7,7 @@
   margin: 0 auto;
   box-sizing: border-box;
   padding: 75px 70px;
-  background: url('../../../images/promo-img.svg') no-repeat top 75px right 70px / 310px 304px;
+  background: url('../../images/promo-img.svg') no-repeat top 75px right 70px / 310px 304px;
   display: flex;
   flex-direction: column;
   gap: 146px;
