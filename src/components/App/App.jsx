@@ -1,27 +1,245 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import '../App/App.css';
-import Main from "../Main/Main";
-import Movies from "../Movies/Movies";
-import SavedMovies from "../SavedMovies/SavedMovies";
-import Register from "../Register/Register";
-import Login from "../Login/Login";
-import Profile from "../Profile/Profile";
-import PageNotFound from "../PageNotFound/PageNotFound";
+import React from 'react';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { mainApi } from '../../utils/MainApi';
+import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute.js';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import './App.css';
+import Main from '../Main/Main.jsx';
+import Movies from '../Movies/Movies.jsx';
+import SavedMovies from '../SavedMovies/SavedMovies.jsx';
+import Profile from '../Profile/Profile.jsx';
+import Login from '../Login/Login.jsx';
+import Register from '../Register/Register.jsx';
+import PageError404 from '../PageError404/PageError404.jsx';
 
+//Вошел ли пользователь в систему на основе наличия JSON токена
 function App() {
+  const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = React.useState(localStorage.getItem('jwt'));
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isSearchError, setIsSearchError] = React.useState(false);
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  const [isSuccessful, setIsSuccessful] = React.useState(false);
+  const [isError, setIsError] = React.useState(false);
+  const [isSending, setIsSending] = React.useState(false);
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      setIsLoading(true);
+      mainApi
+        .getAllNeededData(localStorage.jwt)
+        .then(([moviesData, userData]) => {
+          setSavedMovies(moviesData);
+          setCurrentUser(userData);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsSearchError(true);
+        })
+        .finally(() => setIsLoading(false));
+    }
+  }, [loggedIn]);
+
+  React.useEffect(() => {
+    if (localStorage.jwt) {
+      mainApi
+        .checkToken(localStorage.jwt)
+        .then((res) => {
+          setLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
+  // Очищает localStorage и обновляет состояние при выходе пользователя из системы
+  function signOut() {
+    localStorage.clear();
+    setLoggedIn(false);
+    navigate('/');
+  }
+
+  function handleRegister(username, email, password) {
+    setIsSending(true);
+    mainApi
+      .register(username, email, password)
+      .then((res) => {
+        if (res) {
+          localStorage.setItem('jwt', res.token);
+          handleLogin(email, password);
+          setIsSuccessful(true);
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка при регистрации: ${err}`);
+        setIsError(true);
+        setIsSuccessful(false);
+      })
+      .finally(() => setIsSending(false));
+  }
+
+  function handleLogin(email, password) {
+    setIsSending(true);
+    mainApi
+      .authorize(email, password)
+      .then((res) => {
+        setLoggedIn(true);
+        localStorage.setItem('jwt', res.token);
+        navigate('/movies');
+        setIsSuccessful(true);
+      })
+      .catch((err) => {
+        console.log(`Ошибка при авторизации: ${err}`);
+        setIsError(true);
+        setIsSuccessful(false);
+      })
+      .finally(() => setIsSending(false));
+  }
+
+  function handleRefreshUser(username, email) {
+    setIsSending(true);
+    mainApi
+      .editUserInfo(username, email, localStorage.jwt)
+      .then((res) => {
+        setCurrentUser(res);
+        setIsSuccessful(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+        setIsSuccessful(false);
+      })
+      .finally(() => setIsSending(false));
+  }
+
+  function handleCheckMovie(cardData) {
+    const isChecked = savedMovies.some(
+      (movie) => cardData.id === movie.movieId
+    );
+    const findSavedMovie = savedMovies.filter((movie) => {
+      return movie.movieId === cardData.id;
+    });
+    if (!isChecked) {
+      handleSaveMovie(cardData);
+    } else {
+      handleDeleteMovie(findSavedMovie[0]._id);
+    }
+  }
+
+  function handleSaveMovie(cardData) {
+    mainApi
+      .addMovie(cardData, localStorage.jwt)
+      .then((addedMovie) => {
+        setSavedMovies([...savedMovies, addedMovie]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleDeleteMovie(cardId) {
+    mainApi
+      .deleteMovie(cardId, localStorage.jwt)
+      .then(() => {
+        setSavedMovies(
+          savedMovies.filter((movie) => {
+            return movie._id !== cardId;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  /*Рендер защищённых маршрутов
+    Любой маршрут, несоответствующий прописанным, ведет на страницу 404*/
   return (
-    <div className="page">
-      <Routes>
-        <Route exact path="/" element={<Main />}/>
-        <Route exact path="/movies" element={<Movies />}/>
-        <Route exact path="/saved-movies" element={<SavedMovies />}/>
-        <Route exact path="/signup" element={<Register />}/>
-        <Route exact path="/signin" element={<Login />}/>
-        <Route exact path="/profile" element={<Profile />}/>
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Routes>
+          <Route path="/" element={<Main loggedIn={loggedIn} />} />
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRouteElement
+                element={Movies}
+                loggedIn={loggedIn}
+                savedMovies={savedMovies}
+                checkMovie={handleCheckMovie}
+              />
+            }
+          />
+          <Route
+            path="/saved-movies"
+            element={
+              <ProtectedRouteElement
+                element={SavedMovies}
+                loggedIn={loggedIn}
+                isLoading={isLoading}
+                savedMovies={savedMovies}
+                checkMovie={handleCheckMovie}
+                deleteMovie={handleDeleteMovie}
+                isSearchError={isSearchError}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRouteElement
+                element={Profile}
+                onProfileEdit={handleRefreshUser}
+                onSignOut={signOut}
+                loggedIn={loggedIn}
+                isError={isError}
+                setIsError={setIsError}
+                isSuccessful={isSuccessful}
+                setIsSuccessful={setIsSuccessful}
+                isSending={isSending}
+              />
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              loggedIn ? (
+                <Navigate to="/movies" replace />
+              ) : (
+                <Login
+                  onLogin={handleLogin}
+                  isError={isError}
+                  setIsError={setIsError}
+                  isSending={isSending}
+                  isSuccessful={isSuccessful}
+                  setIsSuccessful={setIsSuccessful}
+                />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              loggedIn ? (
+                <Navigate to="/movies" replace />
+              ) : (
+                <Register
+                  onRegister={handleRegister}
+                  isError={isError}
+                  setIsError={setIsError}
+                  isSending={isSending}
+                  isSuccessful={isSuccessful}
+                  setIsSuccessful={setIsSuccessful}
+                />
+              )
+            }
+          />
+          <Route path="*" element={<PageError404 />} />
+        </Routes>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

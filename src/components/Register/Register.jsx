@@ -1,34 +1,96 @@
 import React from 'react';
-import AuthForm from '../AuthForm/AuthForm';
-import './Register.css'
+import Authorize from '../Authorize/Authorize';
+import Input from '../Input/Input';
+import useFormValidation from '../hooks/useFormValidation';
+import '../Main/Main.css';
 
-function Register() {
+function Register({
+  onRegister,
+  isError,
+  setIsError,
+  isSending,
+  isSuccessful,
+  setIsSuccessful,
+}) {
+  const {
+    inputValues,
+    errorMessages,
+    isFormValid,
+    isInputValid,
+    handleChange,
+  } = useFormValidation();
+
+  function onSubmit(event) {
+    event.preventDefault();
+    onRegister(inputValues.username, inputValues.email, inputValues.password);
+  }
+
+  // Сбрасывает ошибку формы при монтировании и при обновлении инпутов
+  React.useEffect(() => {
+    setIsError(false);
+  }, [setIsError, inputValues]);
+
+  // Сбрасывает сообщение формы при монтировании
+  React.useEffect(() => {
+    setIsSuccessful(false);
+  }, [setIsSuccessful]);
+
   return (
-    <AuthForm
-      title="Добро пожаловать!"
-      nameForm="register"
-      btnText="Зарегистрироваться"
-      textPage="Уже зарегистрированы?"
-      linkPage="/signin"
-      textLink="Войти"
-    >
-      <label className="auth__label">
-        Имя
-        <input className="auth__input" name="name" type="text" placeholder="Имя" minLength="2" maxLength="30" required />
-      </label>
-      <span className="auth__input-error name-error">Ошибка</span>
-      <label className="auth__label">
-        E-mail
-        <input className="auth__input" name="email" type="email" placeholder="E-mail" minLength="2" maxLength="30" required />
-      </label>
-      <span className="auth__input-error email-error">Ошибка</span>
-      <label className="auth__label">
-        Пароль
-        <input className="auth__input" name="password" type="password" placeholder="Пароль" minLength="2" maxLength="30" required />
-      </label>
-      <span className="auth__input-error password-error">Ошибка</span>
-    </AuthForm>
-  )
+    <main className="main page__register register">
+      <Authorize
+        name="register"
+        greeting="Добро пожаловать!"
+        isValid={isFormValid}
+        isError={isError}
+        errorText="При регистрации пользователя произошла ошибка."
+        buttonText="Зарегистрироваться"
+        onSubmit={onSubmit}
+        text="Уже зарегистрированы? "
+        link="/signin"
+        linkText="Войти"
+        isSending={isSending}
+        isSuccessful={isSuccessful}
+      >
+        <Input
+          formType="login"
+          title="Имя"
+          type="text"
+          name="username"
+          placeholder="Имя"
+          minLength="3"
+          maxLength="40"
+          value={inputValues.username}
+          isInputValid={isInputValid.username}
+          error={errorMessages.username}
+          onChange={handleChange}
+        />
+        <Input
+          formType="login"
+          title="E-mail"
+          type="email"
+          name="email"
+          placeholder="E-mail"
+          value={inputValues.email}
+          isInputValid={isInputValid.email}
+          error={errorMessages.email}
+          onChange={handleChange}
+        />
+        <Input
+          formType="login"
+          title="Пароль"
+          type="password"
+          name="password"
+          placeholder="Пароль"
+          minLength="3"
+          maxLength="200"
+          value={inputValues.password}
+          isInputValid={isInputValid.password}
+          error={errorMessages.password}
+          onChange={handleChange}
+        />
+      </Authorize>
+    </main>
+  );
 }
 
 export default Register;

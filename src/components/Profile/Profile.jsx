@@ -1,35 +1,115 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import './Profile.css';
+import Authorize from '../Authorize/Authorize';
+import Input from '../Input/Input';
 import Header from '../Header/Header';
+import useFormValidation from '../hooks/useFormValidation';
+import '../Main/Main.css';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Profile() {
+function Profile({
+  onProfileEdit,
+  onSignOut,
+  isError,
+  setIsError,
+  isSuccessful,
+  setIsSuccessful,
+  isSending,
+}) {
+  const {
+    inputValues,
+    errorMessages,
+    isFormValid,
+    isInputValid,
+    handleChange,
+    updateForm,
+  } = useFormValidation();
+
+  const currentUser = React.useContext(CurrentUserContext);
+  const [isCurrent, setIsCurrent] = React.useState(false);
+
+  React.useEffect(() => {
+    if (
+      inputValues.username === currentUser.name &&
+      inputValues.email === currentUser.email
+    ) {
+      setIsCurrent(true);
+    } else {
+      setIsCurrent(false);
+    }
+  }, [
+    currentUser.email,
+    currentUser.name,
+    inputValues.email,
+    inputValues.username,
+    setIsCurrent,
+  ]);
+
+  // Сбрасывает ошибку формы при монтировании и при обновлении инпутов
+  React.useEffect(() => {
+    setIsError(false);
+  }, [setIsError, inputValues]);
+
+  // Сбрасывает сообщение формы при монтировании
+  React.useEffect(() => {
+    setIsSuccessful(false);
+  }, [setIsSuccessful]);
+
+  React.useEffect(() => {
+    updateForm({ username: currentUser.name, email: currentUser.email });
+  }, [updateForm, currentUser]);
+
+  function onSubmit(event) {
+    event.preventDefault();
+    onProfileEdit(inputValues.username, inputValues.email);
+  }
+
   return (
     <>
       <Header />
-      <section className="profile">
-        <h1 className="profile__title">Привет, Андрей!</h1>
-        <form className="profile__form" name="profile">
-          <div className="profile__inputs">
-            <label className="profile__label">
-              Имя
-              <input className="profile__input" name="name" type="text" placeholder="Имя" minLength="2" maxLength="30" required />
-            </label>
-            <span className="profile__input-error name-error">Ошибка</span>
-            <label className="profile__label">
-              E-mail
-              <input className="profile__input" name="email" type="email" placeholder="E-mail" minLength="2" maxLength="30" required />
-            </label>
-            <span className="profile__input-error email-error">Ошибка</span>
-          </div>
-          <div className="profile__buttons-container">
-            <button type="submit" className="profile__button-edit">Редактировать</button>
-            <Link to="/" className="profile__button-logout">Выйти из аккаунта</Link>
-          </div>
-        </form>
-      </section>
+      <main className="main page__profile profile">
+        <Authorize
+          name="profile"
+          greeting={`Привет, ${currentUser.name}!`}
+          isValid={isFormValid}
+          isError={isError}
+          errorText="При обновлении профиля произошла ошибка."
+          buttonText="Редактировать"
+          onSubmit={onSubmit}
+          isSuccessful={isSuccessful}
+          successText="Данные успешно изменены."
+          link="/"
+          linkText="Выйти из аккаунта"
+          onLinkClick={onSignOut}
+          inputValues={inputValues}
+          isSending={isSending}
+          isCurrent={isCurrent}
+        >
+          <Input
+            formType="profile"
+            title="Имя"
+            type="text"
+            name="username"
+            minLength="3"
+            value={inputValues.username}
+            maxLength="40"
+            isInputValid={isInputValid.username}
+            error={errorMessages.username}
+            onChange={handleChange}
+          />
+          <Input
+            formType="profile"
+            title="E-mail"
+            type="email"
+            name="email"
+            value={inputValues.email}
+            isInputValid={isInputValid.email}
+            error={errorMessages.email}
+            onChange={handleChange}
+          />
+        </Authorize>
+      </main>
     </>
-  )
+  );
 }
 
 export default Profile;

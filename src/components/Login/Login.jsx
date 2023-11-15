@@ -1,29 +1,81 @@
 import React from 'react';
-import AuthForm from '../AuthForm/AuthForm';
-import './Login.css';
+import Authorize from '../Authorize/Authorize';
+import Input from '../Input/Input';
+import useFormValidation from '../hooks/useFormValidation';
+import '../Main/Main.css';
 
-function Login() {
+function Login({
+  onLogin,
+  isError,
+  setIsError,
+  isSending,
+  isSuccessful,
+  setIsSuccessful,
+}) {
+  const {
+    inputValues,
+    errorMessages,
+    isFormValid,
+    isInputValid,
+    handleChange,
+  } = useFormValidation();
+
+  React.useEffect(() => {
+    setIsError(false);
+  }, [setIsError, inputValues]);
+
+  React.useEffect(() => {
+    setIsSuccessful(false);
+  }, [setIsSuccessful]);
+
+  function onSubmit(event) {
+    event.preventDefault();
+    onLogin(inputValues.email, inputValues.password);
+  }
+
   return (
-    <AuthForm
-      title="Рады видеть!"
-      nameForm="login"
-      btnText="Войти"
-      textPage="Ещё не зарегистрированы?"
-      linkPage="/signup"
-      textLink="Регистрация"
-    >
-      <label className="auth__label">
-        E-mail
-        <input className="auth__input" name="email" type="email" placeholder="E-mail" minLength="2" maxLength="30" required />
-        <span className="auth__input-error email-error">Ошибка</span>
-      </label>
-      <label className="auth__label">
-        Пароль
-        <input className="auth__input" name="password" type="password" placeholder="Пароль" minLength="2" maxLength="30" required />
-        <span className="auth__input-error password-error">Ошибка</span>
-      </label>
-    </AuthForm>
-  )
+    <main className="main page__login login">
+      <Authorize
+        name="register"
+        greeting="Рады видеть!"
+        isValid={isFormValid}
+        isError={isError}
+        errorText="При авторизации произошла ошибка."
+        buttonText="Войти"
+        onSubmit={onSubmit}
+        text="Ещё не зарегистрированы? "
+        link="/signup"
+        linkText="Регистрация"
+        isSending={isSending}
+        isSuccessful={isSuccessful}
+      >
+        <Input
+          formType="login"
+          title="E-mail"
+          type="email"
+          name="email"
+          placeholder="E-mail"
+          value={inputValues.email}
+          isInputValid={isInputValid.email}
+          error={errorMessages.email}
+          onChange={handleChange}
+        />
+        <Input
+          formType="login"
+          title="Пароль"
+          type="password"
+          name="password"
+          placeholder="Пароль"
+          minLength="3"
+          maxLength="200"
+          value={inputValues.password}
+          isInputValid={isInputValid.password}
+          error={errorMessages.password}
+          onChange={handleChange}
+        />
+      </Authorize>
+    </main>
+  );
 }
 
 export default Login;

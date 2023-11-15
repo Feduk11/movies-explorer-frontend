@@ -1,0 +1,46 @@
+import React from 'react';
+import './Portfolio.css';
+
+function Portfolio() {
+  return (
+    <section className="portfolio page__portfolio">
+      <h2 className="portfolio__title">Портфолио</h2>
+      <nav className="portfolio__nav">
+        <ul className="portfolio__list">
+          <li className="portfolio__item">
+            <a
+              href="https://github.com/Feduk11/how-to-learn"
+              target="_blank"
+              className="portfolio__link"
+            >
+              <p className="portfolio__project">Статичный сайт</p>
+              <span className="portfolio__button"></span>
+            </a>
+          </li>
+          <li className="portfolio__item">
+            <a
+              href="https://github.com/Feduk11/russian-travel"
+              target="_blank"
+              className="portfolio__link"
+            >
+              <p className="portfolio__project">Адаптивный сайт</p>
+              <span className="portfolio__button"></span>
+            </a>
+          </li>
+          <li className="portfolio__item">
+            <a
+              href="https://github.com/Feduk11/react-mesto-auth"
+              target="_blank"
+              className="portfolio__link"
+            >
+              <p className="portfolio__project">Одностраничное приложение</p>
+              <span className="portfolio__button"></span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </section>
+  );
+}
+
+export default Portfolio;

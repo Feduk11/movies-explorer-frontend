@@ -1,27 +1,81 @@
 import React from 'react';
-import './SavedMovies.css';
 import Header from '../Header/Header';
-import SearchForm from '../Movies/SearchForm/SearchForm';
-import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
-import MoviesCard from '../Movies/MoviesCard/MoviesCard';
-import Footer from "../Footer/Footer";
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Footer from '../Footer/Footer';
+import '../Main/Main.css';
+import {SHORT_FILMS} from '../../utils/constants';
 
-function SavedMovies() {
+function SavedMovies({
+  checkMovie,
+  deleteMovie,
+  savedMovies,
+  isLoading,
+  isSearchError,
+}) {
+  const [filteredMovies, setFilteredMovies] = React.useState(savedMovies);
+  const [isEmpty, setIsEmpty] = React.useState(true);
+  const [isSearched, setIsSearched] = React.useState(false);
+
+  const [searchRequest, setSearchRequest] = React.useState('');
+  const [isChecked, setIsChecked] = React.useState(false);
+
+  function handleCheckBoxClick() {
+    if (isChecked === false) {
+      setIsChecked(true);
+      strainerMovies(searchRequest, true, savedMovies);
+    } else {
+      setIsChecked(false);
+      strainerMovies(searchRequest, false, savedMovies);
+    }
+  }
+
+  const strainerMovies = React.useCallback((searchText, isChecked, movies) => {
+    setSearchRequest(searchText);
+    setFilteredMovies(
+      movies.filter((movie) => {
+        const searchResultRu = movie.nameRU
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+        const searchResultEn = movie.nameEN
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+        return isChecked
+          ? (searchResultRu || searchResultEn) && movie.duration <= SHORT_FILMS
+          : searchResultRu || searchResultEn;
+      })
+    );
+  }, []);
+
+  function searchFilm(searchText) {
+    strainerMovies(searchText, isChecked, savedMovies);
+    setIsSearched(true);
+  }
+
+  React.useEffect(() => {
+    strainerMovies(searchRequest, isChecked, savedMovies);
+    if (savedMovies.length > 0) {
+      setIsEmpty(false);
+    }
+  }, [strainerMovies, searchRequest, isChecked, savedMovies]);
+
   return (
     <>
       <Header />
-      <main className="content">
-        <SearchForm />
-        <MoviesCardList>
-          <MoviesCard></MoviesCard>
-          <MoviesCard></MoviesCard>
-          <MoviesCard></MoviesCard>
-        </MoviesCardList>
-        <div className="saved-movies__divider"></div>
-      </main>
+      <MoviesCardList
+        checkMovie={checkMovie}
+        deleteMovie={deleteMovie}
+        isEmpty={isEmpty}
+        isSearched={isSearched}
+        isLoading={isLoading}
+        isSearchError={isSearchError}
+        savedMovies={savedMovies}
+        filteredMovies={filteredMovies}
+        isChecked={isChecked}
+        handleCheckBoxClick={handleCheckBoxClick}
+        searchFilm={searchFilm}
+      />
       <Footer />
     </>
-  )
+  );
 }
-
 export default SavedMovies;
