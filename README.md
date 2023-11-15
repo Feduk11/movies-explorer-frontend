@@ -9,4 +9,4 @@
 
 * Frontend: https://movies.feduk11.nomoredomainsrocks.ru
 
-* Пул реквест: https://github.com/Feduk11/movies-explorer-frontend/pull/2
+* Пул реквест: https://github.com/Feduk11/movies-explorer-frontend/pull/3

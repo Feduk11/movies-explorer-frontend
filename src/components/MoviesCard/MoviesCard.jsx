@@ -26,7 +26,7 @@ function MoviesCard({ cardData, checkMovie, deleteMovie, savedMovies }) {
     }
   }
 
-  function onDelete() {
+  function handleOnDelete() {
     deleteMovie(cardData._id);
   }
 
@@ -48,7 +48,7 @@ function MoviesCard({ cardData, checkMovie, deleteMovie, savedMovies }) {
       <img
         src={picSrc}
         alt={cardData.nameRU}
-        className="movie-card__image"
+        className="movie-card__img"
         onClick={handleImageClick}
       />
       <div className="movie-card__block">
@@ -61,16 +61,16 @@ function MoviesCard({ cardData, checkMovie, deleteMovie, savedMovies }) {
         {pathname === '/movies' ? (
           <button
             type="button"
-            className={`movie-card__button ${
-              isChecked && 'movie-card__button_on'
+            className={`movie-card__btn ${
+              isChecked && 'movie-card__btn_on'
             }`}
             onClick={handleCardClick}
           ></button>
         ) : (
           <button
             type="button"
-            className={`movie-card__button movie-card__button_delete`}
-            onClick={onDelete}
+            className={`movie-card__btn movie-card__btn_delete`}
+            onClick={handleOnDelete}
           ></button>
         )}
       </div>
