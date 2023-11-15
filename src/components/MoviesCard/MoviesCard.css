@@ -90,5 +90,5 @@
 
 .movie-card__button_delete {
   background-position: center;
-  background-image: url(../../images/movie-card__button_delete.svg);
+  background-image: url(../../images/movie-delete-btn.svg);
 }
