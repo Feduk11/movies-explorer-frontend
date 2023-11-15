@@ -8,7 +8,7 @@ import SavedMovies from '../SavedMovies/SavedMovies.jsx';
 import Profile from '../Profile/Profile.jsx';
 import Login from '../Login/Login.jsx';
 import Register from '../Register/Register.jsx';
-import NotFound from '../NotFound/NotFound.jsx';
+import PageError404 from '../PageError404/PageError404.jsx';
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute.js';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
@@ -234,7 +234,7 @@ function App() {
               )
             }
           />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<PageError404 />} />
         </Routes>
       </div>
     </CurrentUserContext.Provider>

@@ -4,6 +4,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import '../Main/Main.css';
 import { moviesApi } from '../../utils/MoviesApi';
+import {SHORT_FILMS} from '../../utils/constants';
 
 function Movies({ checkMovie, savedMovies }) {
   const [filteredMovies, setFilteredMovies] = React.useState([]);
@@ -41,7 +42,7 @@ function Movies({ checkMovie, savedMovies }) {
           .toLowerCase()
           .includes(searchText.toLowerCase());
         return isChecked
-          ? (searchResultRu || searchResultEn) && movie.duration <= 40
+          ? (searchResultRu || searchResultEn) && movie.duration <= SHORT_FILMS
           : searchResultRu || searchResultEn;
       })
     );

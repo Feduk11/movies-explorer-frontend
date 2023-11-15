@@ -3,6 +3,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import SearchForm from '../SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
+import { MOBILE_SCREEN_768, TABLET_SCREEN_980, DESKTOP_SCREEN_1150, DESKTOP_XL_SCREEN_1280, DESKTOPXL_INIT_MOVIES_NUM, DESKTOP_INIT_MOVIES_NUM, TABLET_INIT_MOVIES_NUM, MOBILE_INIT_MOVIES_NUM, DESKTOPXL_ADD_MOVIES_NUM, DESKTOP_ADD_MOVIES_NUM, TABLET_ADD_MOVIES_NUM, MOBILE_ADD_MOVIES_NUM } from '../../utils/constants';
 
 function MoviesCardList({
   checkMovie,
@@ -24,21 +25,21 @@ function MoviesCardList({
 
   function publishMovies() {
     const counter = {};
-    if (window.innerWidth >= 1280) {
-      counter.base = 16;
-      counter.step = 4;
+    if (window.innerWidth >= DESKTOP_XL_SCREEN_1280) {
+      counter.base = DESKTOPXL_INIT_MOVIES_NUM;
+      counter.step = DESKTOPXL_ADD_MOVIES_NUM;
     }
-    if (window.innerWidth <= 1279) {
-      counter.base = 12;
-      counter.step = 3;
+    if (window.innerWidth <= DESKTOP_SCREEN_1150) {
+      counter.base = DESKTOP_INIT_MOVIES_NUM;
+      counter.step = DESKTOP_ADD_MOVIES_NUM;
     }
-    if (window.innerWidth <= 1024) {
-      counter.base = 8;
-      counter.step = 2;
+    if (window.innerWidth <= TABLET_SCREEN_980) {
+      counter.base = TABLET_INIT_MOVIES_NUM;
+      counter.step = TABLET_ADD_MOVIES_NUM;
     }
-    if (window.innerWidth <= 649) {
-      counter.base = 5;
-      counter.step = 2;
+    if (window.innerWidth <= MOBILE_SCREEN_768) {
+      counter.base = MOBILE_INIT_MOVIES_NUM;
+      counter.step = MOBILE_ADD_MOVIES_NUM;
     }
     return counter;
   }

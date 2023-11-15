@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import '../Main/Main.css';
+import {SHORT_FILMS} from '../../utils/constants';
 
 function SavedMovies({
   checkMovie,
@@ -39,7 +40,7 @@ function SavedMovies({
           .toLowerCase()
           .includes(searchText.toLowerCase());
         return isChecked
-          ? (searchResultRu || searchResultEn) && movie.duration <= 40
+          ? (searchResultRu || searchResultEn) && movie.duration <= SHORT_FILMS
           : searchResultRu || searchResultEn;
       })
     );
