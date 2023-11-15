@@ -3,7 +3,6 @@ class MainApi {
     this._baseUrl = options.baseUrl;
   }
 
-  // проверка ответа сервера и преобразование из json
   _getResponseData(res) {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -11,7 +10,6 @@ class MainApi {
     return res.json();
   }
 
-  // регистрация пользователя
   register(username, email, password) {
     return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
@@ -26,7 +24,6 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  // авторизация пользователя
   authorize(email, password) {
     return fetch(`${this._baseUrl}/signin`, {
       method: 'POST',
@@ -40,7 +37,6 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  // проверка токена
   checkToken(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
@@ -51,7 +47,6 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  // получение карточек фильмов с сервера
   getUserMovies(token) {
     return fetch(`${this._baseUrl}/movies`, {
       headers: {
@@ -60,7 +55,6 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  // добавление карточки фильма на сервер
   addMovie(cardData, token) {
     return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
@@ -84,18 +78,15 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  // удаление карточки с сервера
   deleteMovie(cardId, token) {
     return fetch(`${this._baseUrl}/movies/${cardId}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${token}`,
-        // 'Content-Type': 'application/json',
       },
     }).then((res) => this._getResponseData(res));
   }
 
-  // получение своих данных пользователя с сервера
   getMyUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
@@ -104,7 +95,6 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  // внесение изменений в свои данные пользователя на сервере
   editUserInfo(username, email, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
@@ -119,13 +109,11 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  // возвращает массив промисов, которые нужно исполнить
   getAllNeededData(token) {
     return Promise.all([this.getUserMovies(token), this.getMyUserInfo(token)]);
   }
 }
 
-// создание экземпляра класса Api
 export const mainApi = new MainApi({
-  baseUrl: 'https://api.movies.methoni.nomoredomainsrocks.ru',
+  baseUrl: 'https://api.movies.feduk11.nomoredomainsrocks.ru',
 });

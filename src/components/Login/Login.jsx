@@ -20,12 +20,10 @@ function Login({
     handleChange,
   } = useFormWithValidation();
 
-  // Сбрасывает ошибку формы при монтировании и при обновлении инпутов
   React.useEffect(() => {
     setIsError(false);
   }, [setIsError, inputValues]);
 
-  // Сбрасывает сообщение формы при монтировании
   React.useEffect(() => {
     setIsSuccessful(false);
   }, [setIsSuccessful]);

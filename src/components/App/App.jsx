@@ -53,7 +53,6 @@ function App() {
     }
   }, []);
 
-  // Блок авторизации и регистрации
 
   function handleLogin(email, password) {
     setIsSending(true);
@@ -114,7 +113,6 @@ function App() {
       .finally(() => setIsSending(false));
   }
 
-  // Блок с фильмами
 
   function handleSaveMovie(cardData) {
     mainApi
@@ -143,11 +141,9 @@ function App() {
   }
 
   function handleCheckMovie(cardData) {
-    // Проверяем, сохранена ли карточка
     const isChecked = savedMovies.some(
       (movie) => cardData.id === movie.movieId
     );
-    // Находим карточку и присваиваем movieId
     const findSavedMovie = savedMovies.filter((movie) => {
       return movie.movieId === cardData.id;
     });
@@ -159,7 +155,6 @@ function App() {
   }
 
   return (
-    // «Внедряем» данные из currentUser с помощью провайдера контекста
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Routes>
