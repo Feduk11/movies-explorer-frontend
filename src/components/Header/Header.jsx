@@ -47,7 +47,7 @@ function HamburgerMenu() {
   );
 }
 
-function Header({ isLoggedIn }) {
+function Header({ name, isLoggedIn }) {
   const location = useLocation();
   const modifyHeaderBackground = location.pathname !== '/';
 
@@ -59,7 +59,7 @@ function Header({ isLoggedIn }) {
       <div className="header__container">
         <Link to="/" className="header__logo" />
         {
-          !isLoggedIn ? (
+          name === 'main' && !isLoggedIn ? (
             <ul className="header__list">
               <li><Link to="/signup" className="header__item">Регистрация</Link></li>
               <li><Link to="/signin" className="header__item header__item_button">Войти</Link></li>
