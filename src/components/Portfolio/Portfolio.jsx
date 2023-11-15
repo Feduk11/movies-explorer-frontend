@@ -2,27 +2,45 @@ import React from 'react';
 import './Portfolio.css';
 
 function Portfolio() {
-
-  const portfolioLinks = [
-    {url: "https://feduk11.github.io/how-to-learn", text: "Статичный сайт"},
-    {url: "https://feduk11.github.io/russian-travel", text: "Адаптивный сайт"},
-    {url: "https://feduk11.nomoredomainsrocks.ru", text: "Одностраничное приложение"}
-  ];
-
   return (
-    <section className="portfolio">
+    <section className="portfolio page__portfolio">
       <h2 className="portfolio__title">Портфолио</h2>
-      <ul className="portfolio__list">
-        {portfolioLinks.map((link, i) =>
-          <li key={i} className="portfolio__item">
-            <a href={link.url} className="portfolio__link" target="_blank" rel="noreferrer">
-              {link.text}
+      <nav className="portfolio__nav">
+        <ul className="portfolio__list">
+          <li className="portfolio__item">
+            <a
+              href="https://github.com/methoni/how-to-learn"
+              target="_blank"
+              className="portfolio__link"
+            >
+              <p className="portfolio__project">Статичный сайт</p>
+              <span className="portfolio__button"></span>
             </a>
           </li>
-        )}
-      </ul>
+          <li className="portfolio__item">
+            <a
+              href="https://github.com/methoni/russian-travel"
+              target="_blank"
+              className="portfolio__link"
+            >
+              <p className="portfolio__project">Адаптивный сайт</p>
+              <span className="portfolio__button"></span>
+            </a>
+          </li>
+          <li className="portfolio__item">
+            <a
+              href="https://github.com/methoni/react-mesto-auth"
+              target="_blank"
+              className="portfolio__link"
+            >
+              <p className="portfolio__project">Одностраничное приложение</p>
+              <span className="portfolio__button"></span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </section>
-  )
+  );
 }
 
 export default Portfolio;

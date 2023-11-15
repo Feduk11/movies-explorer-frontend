@@ -1,29 +1,29 @@
 import React from 'react';
 import './Footer.css';
 
-// Узнаю текущий год
-const currentYear = new Date().getFullYear();
-
 function Footer() {
+  const date = new Date().getFullYear();
+
   return (
-    <footer className="footer">
-      <p className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm.</p>
+    <footer className="footer page__footer">
+      <p className="footer__title">
+        Учебный проект Яндекс.Практикум х BeatFilm.
+      </p>
       <div className="footer__container">
-        <p className="footer__data">&copy; {currentYear}</p>
-        <nav className="footer__links">
+        <p className="footer__date">&copy; {date}</p>
+        <nav className="footer__nav">
           <a
-          href="https://practicum.yandex.ru"
-          className="footer__link"
-          rel="noreferrer"
-          target="_blank"
+            href="https://practicum.yandex.ru/"
+            target="_blank"
+            className="footer__link"
           >
             Яндекс.Практикум
           </a>
           <a
-          href="https://github.com/Feduk11"
-          className="footer__link"
-          rel="noreferrer"
-          target="_blank">
+            href="https://github.com/methoni"
+            target="_blank"
+            className="footer__link"
+          >
             Github
           </a>
         </nav>

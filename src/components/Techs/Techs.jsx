@@ -2,25 +2,25 @@ import React from 'react';
 import './Techs.css';
 
 function Techs() {
-
-  const techList = ["HTML", "CSS", "JS", "React", "Git", "Express.js", "mongoDB"];
-
   return (
-    <section className="techs">
+    <section className="techs page__techs">
+      <h2 className="techs__title">Технологии</h2>
       <div className="techs__container">
-        <h2 className="techs__title">Технологии</h2>
-        <div className="techs__content">
-          <h3 className="techs__content-title">7 технологий</h3>
-          <p className="techs__content-subtitle">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
-          <ul className="techs__list">
-            {techList.map((tech, i) =>
-              <li key={i} className="techs__list-name">
-                {tech}
-              </li>
-            )}
-          </ul>
-        </div>
+        <h3 className="techs__subtitle">7 технологий</h3>
+        <p className="techs__text">
+          На курсе веб-разработки мы освоили технологии, которые применили в
+          дипломном проекте.
+        </p>
       </div>
+      <ul className="techs__list">
+        <li className="techs__name">HTML</li>
+        <li className="techs__name">CSS</li>
+        <li className="techs__name">JS</li>
+        <li className="techs__name">React</li>
+        <li className="techs__name">Git</li>
+        <li className="techs__name">Express.js</li>
+        <li className="techs__name">mongoDB</li>
+      </ul>
     </section>
   );
 }
