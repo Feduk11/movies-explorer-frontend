@@ -1,7 +1,7 @@
 import React from 'react';
 import Authorize from '../Authorize/Authorize';
 import Input from '../Input/Input';
-import useFormWithValidation from '../hooks/useFormWithValidation';
+import useFormValidation from '../hooks/useFormValidation';
 import '../Main/Main.css';
 
 function Register({
@@ -18,7 +18,7 @@ function Register({
     isFormValid,
     isInputValid,
     handleChange,
-  } = useFormWithValidation();
+  } = useFormValidation();
 
   function onSubmit(event) {
     event.preventDefault();

@@ -1,20 +1,20 @@
 import React from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import useFormWithValidation from '../hooks/useFormWithValidation';
+import useFormValidation from '../hooks/useFormValidation';
 import { useLocation } from 'react-router-dom';
 
 function SearchForm({
   isChecked,
   handleCheckBoxClick,
-  searchMovies,
+  searchFilm,
   searchRequest,
   isLoading,
 }) {
   const { pathname } = useLocation();
   const [isValid, setIsValid] = React.useState(true);
   const { inputValues, isFormValid, handleChange, updateForm } =
-    useFormWithValidation();
+    useFormValidation();
 
   React.useEffect(() => {
     if (pathname === '/saved-movies') {
@@ -28,13 +28,13 @@ function SearchForm({
     event.preventDefault();
     if (isFormValid) {
       setIsValid(true);
-      searchMovies(event.target.search.value);
+      searchFilm(event.target.search.value);
     } else {
       setIsValid(false);
     }
   }
 
-  function handleInputChange(event) {
+  function handleInputModifi(event) {
     handleChange(event);
     setIsValid(true);
   }
@@ -55,7 +55,7 @@ function SearchForm({
               placeholder="Фильм"
               className="search__input"
               value={inputValues.search}
-              onChange={handleInputChange}
+              onChange={handleInputModifi}
               required
             />
             <button

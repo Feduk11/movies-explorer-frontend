@@ -1,7 +1,7 @@
 import React from 'react';
 import Authorize from '../Authorize/Authorize';
 import Input from '../Input/Input';
-import useFormWithValidation from '../hooks/useFormWithValidation';
+import useFormValidation from '../hooks/useFormValidation';
 import '../Main/Main.css';
 
 function Login({
@@ -18,7 +18,7 @@ function Login({
     isFormValid,
     isInputValid,
     handleChange,
-  } = useFormWithValidation();
+  } = useFormValidation();
 
   React.useEffect(() => {
     setIsError(false);

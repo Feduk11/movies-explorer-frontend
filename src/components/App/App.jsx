@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import { mainApi } from '../../utils/MainApi';
+import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute.js';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import './App.css';
 import Main from '../Main/Main.jsx';
 import Movies from '../Movies/Movies.jsx';
@@ -9,9 +11,8 @@ import Profile from '../Profile/Profile.jsx';
 import Login from '../Login/Login.jsx';
 import Register from '../Register/Register.jsx';
 import PageError404 from '../PageError404/PageError404.jsx';
-import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute.js';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
+//Вошел ли пользователь в систему на основе наличия JSON токена
 function App() {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = React.useState(localStorage.getItem('jwt'));
@@ -53,25 +54,7 @@ function App() {
     }
   }, []);
 
-
-  function handleLogin(email, password) {
-    setIsSending(true);
-    mainApi
-      .authorize(email, password)
-      .then((res) => {
-        setLoggedIn(true);
-        localStorage.setItem('jwt', res.token);
-        navigate('/movies');
-        setIsSuccessful(true);
-      })
-      .catch((err) => {
-        console.log(`Ошибка при авторизации: ${err}`);
-        setIsError(true);
-        setIsSuccessful(false);
-      })
-      .finally(() => setIsSending(false));
-  }
-
+  // Очищает localStorage и обновляет состояние при выходе пользователя из системы
   function signOut() {
     localStorage.clear();
     setLoggedIn(false);
@@ -97,7 +80,25 @@ function App() {
       .finally(() => setIsSending(false));
   }
 
-  function handleUpdateUser(username, email) {
+  function handleLogin(email, password) {
+    setIsSending(true);
+    mainApi
+      .authorize(email, password)
+      .then((res) => {
+        setLoggedIn(true);
+        localStorage.setItem('jwt', res.token);
+        navigate('/movies');
+        setIsSuccessful(true);
+      })
+      .catch((err) => {
+        console.log(`Ошибка при авторизации: ${err}`);
+        setIsError(true);
+        setIsSuccessful(false);
+      })
+      .finally(() => setIsSending(false));
+  }
+
+  function handleRefreshUser(username, email) {
     setIsSending(true);
     mainApi
       .editUserInfo(username, email, localStorage.jwt)
@@ -113,6 +114,19 @@ function App() {
       .finally(() => setIsSending(false));
   }
 
+  function handleCheckMovie(cardData) {
+    const isChecked = savedMovies.some(
+      (movie) => cardData.id === movie.movieId
+    );
+    const findSavedMovie = savedMovies.filter((movie) => {
+      return movie.movieId === cardData.id;
+    });
+    if (!isChecked) {
+      handleSaveMovie(cardData);
+    } else {
+      handleDeleteMovie(findSavedMovie[0]._id);
+    }
+  }
 
   function handleSaveMovie(cardData) {
     mainApi
@@ -140,20 +154,8 @@ function App() {
       });
   }
 
-  function handleCheckMovie(cardData) {
-    const isChecked = savedMovies.some(
-      (movie) => cardData.id === movie.movieId
-    );
-    const findSavedMovie = savedMovies.filter((movie) => {
-      return movie.movieId === cardData.id;
-    });
-    if (!isChecked) {
-      handleSaveMovie(cardData);
-    } else {
-      handleDeleteMovie(findSavedMovie[0]._id);
-    }
-  }
-
+  /*Рендер защищённых маршрутов
+    Любой маршрут, несоответствующий прописанным, ведет на страницу 404*/
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -189,7 +191,7 @@ function App() {
             element={
               <ProtectedRouteElement
                 element={Profile}
-                onProfileEdit={handleUpdateUser}
+                onProfileEdit={handleRefreshUser}
                 onSignOut={signOut}
                 loggedIn={loggedIn}
                 isError={isError}

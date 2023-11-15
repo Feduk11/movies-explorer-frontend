@@ -22,14 +22,14 @@ function SavedMovies({
   function handleCheckBoxClick() {
     if (isChecked === false) {
       setIsChecked(true);
-      filterMovies(searchRequest, true, savedMovies);
+      strainerMovies(searchRequest, true, savedMovies);
     } else {
       setIsChecked(false);
-      filterMovies(searchRequest, false, savedMovies);
+      strainerMovies(searchRequest, false, savedMovies);
     }
   }
 
-  const filterMovies = React.useCallback((searchText, isChecked, movies) => {
+  const strainerMovies = React.useCallback((searchText, isChecked, movies) => {
     setSearchRequest(searchText);
     setFilteredMovies(
       movies.filter((movie) => {
@@ -46,17 +46,17 @@ function SavedMovies({
     );
   }, []);
 
-  function searchMovies(searchText) {
-    filterMovies(searchText, isChecked, savedMovies);
+  function searchFilm(searchText) {
+    strainerMovies(searchText, isChecked, savedMovies);
     setIsSearched(true);
   }
 
   React.useEffect(() => {
-    filterMovies(searchRequest, isChecked, savedMovies);
+    strainerMovies(searchRequest, isChecked, savedMovies);
     if (savedMovies.length > 0) {
       setIsEmpty(false);
     }
-  }, [filterMovies, searchRequest, isChecked, savedMovies]);
+  }, [strainerMovies, searchRequest, isChecked, savedMovies]);
 
   return (
     <>
@@ -72,7 +72,7 @@ function SavedMovies({
         filteredMovies={filteredMovies}
         isChecked={isChecked}
         handleCheckBoxClick={handleCheckBoxClick}
-        searchMovies={searchMovies}
+        searchFilm={searchFilm}
       />
       <Footer />
     </>

@@ -16,7 +16,7 @@ function MoviesCardList({
   filteredMovies,
   isChecked,
   handleCheckBoxClick,
-  searchMovies,
+  searchFilm,
   searchRequest,
 }) {
   const [publishedMovies, setPublishedMovies] = React.useState(
@@ -53,7 +53,7 @@ function MoviesCardList({
       <SearchForm
         isChecked={isChecked}
         handleCheckBoxClick={handleCheckBoxClick}
-        searchMovies={searchMovies}
+        searchFilm={searchFilm}
         searchRequest={searchRequest}
         isLoading={isLoading}
       />

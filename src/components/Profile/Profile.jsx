@@ -2,7 +2,7 @@ import React from 'react';
 import Authorize from '../Authorize/Authorize';
 import Input from '../Input/Input';
 import Header from '../Header/Header';
-import useFormWithValidation from '../hooks/useFormWithValidation';
+import useFormValidation from '../hooks/useFormValidation';
 import '../Main/Main.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
@@ -22,7 +22,7 @@ function Profile({
     isInputValid,
     handleChange,
     updateForm,
-  } = useFormWithValidation();
+  } = useFormValidation();
 
   const currentUser = React.useContext(CurrentUserContext);
   const [isCurrent, setIsCurrent] = React.useState(false);

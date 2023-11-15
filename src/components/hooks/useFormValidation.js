@@ -1,7 +1,7 @@
 import React from 'react';
 import validator from 'validator';
 
-function useFormWithValidation() {
+function useFormValidation() {
   const [inputValues, setInputValues] = React.useState({});
   const [errorMessages, setErrorMessages] = React.useState({});
   const [isFormValid, setIsFormValid] = React.useState(false);
@@ -67,4 +67,4 @@ function useFormWithValidation() {
   };
 }
 
-export default useFormWithValidation;
+export default useFormValidation;

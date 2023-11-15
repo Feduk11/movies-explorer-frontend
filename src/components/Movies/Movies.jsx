@@ -22,15 +22,15 @@ function Movies({ checkMovie, savedMovies }) {
     if (isChecked === false) {
       setIsChecked(true);
       localStorage.setItem('checkBoxState', JSON.stringify(true));
-      filterMovies(searchRequest, true, currentMovies);
+      strainerMovies(searchRequest, true, currentMovies);
     } else {
       setIsChecked(false);
       localStorage.setItem('checkBoxState', JSON.stringify(false));
-      filterMovies(searchRequest, false, currentMovies);
+      strainerMovies(searchRequest, false, currentMovies);
     }
   }
 
-  const filterMovies = React.useCallback((searchText, isChecked, movies) => {
+  const strainerMovies = React.useCallback((searchText, isChecked, movies) => {
     setSearchRequest(searchText);
     setIsChecked(isChecked);
     setFilteredMovies(
@@ -51,9 +51,9 @@ function Movies({ checkMovie, savedMovies }) {
     localStorage.setItem('foundMovies', JSON.stringify(movies));
   }, []);
 
-  function searchMovies(searchText) {
+  function searchFilm(searchText) {
     if (currentMovies.length > 0) {
-      filterMovies(searchText, isChecked, currentMovies);
+      strainerMovies(searchText, isChecked, currentMovies);
     } else {
       setIsLoading(true);
       moviesApi
@@ -62,7 +62,7 @@ function Movies({ checkMovie, savedMovies }) {
           setCurrentMovies(res);
           setIsChecked(false);
           setIsSearchError(false);
-          filterMovies(searchText, isChecked, res);
+          strainerMovies(searchText, isChecked, res);
         })
         .catch((err) => {
           console.log(err);
@@ -86,12 +86,12 @@ function Movies({ checkMovie, savedMovies }) {
       setSearchRequest(searchText);
       setIsChecked(isChecked);
       setCurrentMovies(movies);
-      filterMovies(searchText, isChecked, movies);
+      strainerMovies(searchText, isChecked, movies);
     }
     if (currentMovies.length > 0) {
       setIsEmpty(false);
     }
-  }, [filterMovies, currentMovies.length]);
+  }, [strainerMovies, currentMovies.length]);
 
   return (
     <>
@@ -106,7 +106,7 @@ function Movies({ checkMovie, savedMovies }) {
         filteredMovies={filteredMovies}
         isChecked={isChecked}
         handleCheckBoxClick={handleCheckBoxClick}
-        searchMovies={searchMovies}
+        searchFilm={searchFilm}
         searchRequest={searchRequest}
       />
       <Footer />
