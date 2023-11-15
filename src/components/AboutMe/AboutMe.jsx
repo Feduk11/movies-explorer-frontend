@@ -1,34 +1,22 @@
 import React from 'react';
 import './AboutMe.css';
-import pic from '../../images/about-me__pic.png';
+import AvatarImg from '../../images/avatar.jpg';
 
 function AboutMe() {
   return (
-    <section className="about-me page__about-me">
+    <section className="about-me">
       <h2 className="about-me__title">Студент</h2>
       <div className="about-me__container">
-        <div className="about-me__text">
-          <h3 className="about-me__name">Виталий</h3>
-          <h4 className="about-me__info">Фронтенд-разработчик, 30 лет</h4>
-          <p className="about-me__description">
-            Я родился и живу в Саратове, закончил факультет экономики СГУ. У
-            меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь
-            бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ
-            Контур». После того, как прошёл курс по веб-разработке, начал
-            заниматься фриланс-заказами и ушёл с постоянной работы.
-          </p>
-          <a
-            href="https://github.com/methoni"
-            target="_blank"
-            className="about-me__link"
-          >
-            Github
-          </a>
+        <div className="about-me__info">
+          <h3 className="about-me__bio-name">Андрей</h3>
+          <p className="about-me__bio-role">Фронтенд-разработчик, 26 лет</p>
+          <p className="about-me__bio-description">Я родился и живу в г. Новокузнецк, закончил педагогический факультет КемГУ. Я люблю слушать музыку, а ещё увлекаюсь спортом и IT. Нравится заниматься фронтенд-разработкой. В 2019 году получил диплом учителя информатики. По семейным обстоятельствам длительное время работал огнеупорщиком на заводе. Сейчас планирую осуществить давнюю мечту и полностью уйти в разработку сайтов и приложений.</p>
+          <a href="https://github.com/Feduk11" className="about-me__link" target="_blank" rel="noreferrer">Github</a>
         </div>
-        <img src={pic} alt="Аватар" className="about-me__pic" />
+        <img src={AvatarImg} className="about-me__avatar-img" alt="Аватар" />
       </div>
     </section>
-  );
+  )
 }
 
 export default AboutMe;
